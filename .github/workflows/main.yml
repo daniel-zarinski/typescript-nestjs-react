@@ -15,10 +15,6 @@ jobs:
 
     runs-on: ${{ matrix.os }}
 
-    defaults:
-      run:
-        working-directory: ./tests/main
-
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
