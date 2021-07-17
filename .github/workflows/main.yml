@@ -1,0 +1,31 @@
+name: build-lint-api
+
+on:
+  push:
+    branches: ['master', 'develop']
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [macOS-latest, windows-latest, ubuntu-latest]
+        node-version: [14.x]
+
+    runs-on: ${{ matrix.os }}
+
+    defaults:
+      run:
+        working-directory: ./tests/main
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - run: yarn install
+      - run: yarn build
+      - run: yarn lint
+      - run: cd apps/web && yarn build
