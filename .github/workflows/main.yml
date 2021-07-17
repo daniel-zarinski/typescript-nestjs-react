@@ -29,13 +29,16 @@ jobs:
       - name: Install packages
         run: yarn install
 
-      - name: Build Typescript Project (API)
-        run: yarn build
-
-      - name: Lint
+      - name: Lint API
         run: yarn lint
 
-      - name: Build Typescript Project (Client)
+      - name: Build API
+        run: yarn build
+
+      - name: Test API
+        run: yarn test
+
+      - name: Build Client
         run: cd apps/web && yarn build
 
       - name: Lint Client
