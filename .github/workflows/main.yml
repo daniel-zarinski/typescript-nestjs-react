@@ -37,3 +37,6 @@ jobs:
 
       - name: Build Typescript Project (Client)
         run: cd apps/web && yarn build
+
+      - name: Lint Client
+        run: cd apps/web && yarn lint
