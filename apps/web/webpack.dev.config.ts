@@ -3,7 +3,11 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
 
-const config: webpack.Configuration & { devServer: unknown } = {
+declare interface DevServer {
+  [index: string]: unknown;
+}
+
+const config: webpack.Configuration & { devServer: DevServer } = {
   mode: 'development',
   output: {
     publicPath: '/',
