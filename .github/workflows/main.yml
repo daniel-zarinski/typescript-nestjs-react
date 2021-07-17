@@ -1,4 +1,4 @@
-name: build-lint-api
+name: main
 
 on:
   push:
@@ -21,7 +21,19 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - run: yarn install
-      - run: yarn build
-      - run: yarn lint
-      - run: cd apps/web && yarn build
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install packages
+        run: yarn install
+
+      - name: Build Typescript Project (API)
+        run: yarn build
+
+      - name: Lint
+        run: yarn lint
+
+      - name: Build Typescript Project (Client)
+        run: cd apps/web && yarn build
