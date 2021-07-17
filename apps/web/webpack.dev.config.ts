@@ -7,7 +7,7 @@ interface DevServer {
   [index: string]: unknown;
 }
 
-const config: webpack.Configuration & { devServer: DevServer } = {
+const config: webpack.Configuration & { devServer?: DevServer } = {
   mode: 'development',
   output: {
     publicPath: '/',
