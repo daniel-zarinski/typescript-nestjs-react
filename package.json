@@ -5,18 +5,22 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "workspaces": [
+    "apps/*",
+    "libs/*"
+  ],
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "nest build",
+    "build": "nest build api && nest build shared",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
-    "start": "nest start",
-    "start:dev": "nest start --watch",
-    "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start": "concurrently --kill-others-on-fail \"yarn start:api\"  \"nest build shared --watch\"",
+    "start:api": "nest start api --watch",
+    "start:shared": "nest start api --watch",
+    "start:debug": "nest start api --debug --watch",
+    "start:prod": "yarn build && node dist/apps/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./apps/api/test/jest-e2e.json"
   },
@@ -49,6 +53,7 @@
     "ts-loader": "^9.2.3",
     "ts-node": "^10.0.0",
     "tsconfig-paths": "^3.10.1",
+    "concurrently": "^6.2.0",
     "typescript": "^4.3.5"
   },
   "jest": {
@@ -72,7 +77,7 @@
       "<rootDir>/apps/"
     ],
     "moduleNameMapper": {
-      "^@shared/shared(|/.*)$": "<rootDir>/libs/shared/src/$1"
+      "^@lib/shared(|/.*)$": "<rootDir>/libs/shared/src/$1"
     }
   }
 }

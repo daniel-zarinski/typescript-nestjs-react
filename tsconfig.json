@@ -13,12 +13,8 @@
     "incremental": true,
     "skipLibCheck": true,
     "paths": {
-      "@shared/shared": [
-        "libs/shared/src"
-      ],
-      "@shared/shared/*": [
-        "libs/shared/src/*"
-      ]
+      "@lib/shared": ["libs/shared/src"],
+      "@lib/shared/*": ["libs/shared/src/*"]
     }
   }
 }
