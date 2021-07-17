@@ -14,6 +14,7 @@
     "build": "nest build api && nest build shared",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start": "concurrently --kill-others-on-fail \"yarn start:api\"  \"nest build shared --watch\"",
+    "start:web": "cd apps/web && yarn start",
     "start:api": "nest start api --watch",
     "start:shared": "nest start api --watch",
     "start:debug": "nest start api --debug --watch",
