@@ -3,7 +3,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
 
-const config: webpack.Configuration = {
+const config: webpack.Configuration & { devServer: unknown } = {
   mode: 'development',
   output: {
     publicPath: '/',
@@ -39,8 +39,6 @@ const config: webpack.Configuration = {
     }),
   ],
   devtool: 'inline-source-map',
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   devServer: {
     historyApiFallback: true,
     port: 3000,
