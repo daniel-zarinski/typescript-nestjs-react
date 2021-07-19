@@ -1,7 +1,9 @@
-## About
+## Docs
 
-- [Nest](https://github.com/nestjs/nest) framework TypeScript starter project.
-- [React](https://github.com/facebook/react) & TypeScript.
+- [Nest](https://github.com/nestjs/nest) 
+- [React](https://github.com/facebook/react)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Chakra UI](https://chakra-ui.com/docs/getting-started)
 
 ## Installation
 
