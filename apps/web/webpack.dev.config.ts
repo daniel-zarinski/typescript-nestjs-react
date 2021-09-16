@@ -4,7 +4,11 @@ import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
 
 interface DevServer {
-  [index: string]: unknown;
+  historyApiFallback: boolean;
+  port: number;
+  open: boolean;
+  hot: boolean;
+  [key: string]: unknown;
 }
 
 const config: webpack.Configuration & { devServer?: DevServer } = {

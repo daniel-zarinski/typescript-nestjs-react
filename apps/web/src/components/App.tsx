@@ -1,7 +1,7 @@
 import { Heading, Text, VStack } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 
-const App = (): JSX.Element => {
+const App = () => {
   useEffect(() => {
     console.log('hello1');
   }, []);

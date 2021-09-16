@@ -7,11 +7,11 @@
   "private": true,
   "scripts": {
     "start": "webpack serve --config webpack.dev.config.ts",
-    "build": "webpack  --config webpack.prod.config.ts",
+    "build": "webpack --config webpack.prod.config.ts",
     "lint": "eslint --ext .ts,.tsx src"
   },
   "dependencies": {
-    "@chakra-ui/react": "^1.6.5",
+    "@chakra-ui/react": "^1.6.7",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "framer-motion": "^4",
@@ -25,6 +25,7 @@
     "@babel/preset-react": "^7.14.5",
     "@babel/preset-typescript": "^7.14.5",
     "@babel/runtime": "^7.14.6",
+    "@chakra-ui/utils": "^1.8.2",
     "@types/fork-ts-checker-webpack-plugin": "^0.4.5",
     "@types/react": "^17.0.14",
     "@types/react-dom": "^17.0.9",
