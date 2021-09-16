@@ -9,9 +9,7 @@ const config: webpack.Configuration = {
   mode: 'production',
   entry: './src/index.tsx',
   output: {
-    path: process.env.PROD
-      ? path.resolve(__dirname, 'dist')
-      : path.resolve(__dirname, '..', '..', 'dist', 'apps', 'web'),
+    path: process.env.PROD ? path.resolve(__dirname, 'dist') : path.resolve(__dirname, '..', '..', 'dist', 'apps', 'web'),
     filename: '[name].[contenthash].js',
     publicPath: '',
   },
@@ -31,6 +29,11 @@ const config: webpack.Configuration = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+  },
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000,
   },
   plugins: [
     new HtmlWebpackPlugin({
