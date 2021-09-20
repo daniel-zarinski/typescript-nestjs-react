@@ -6,7 +6,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "webpack serve --config webpack.dev.config.ts",
+    "start": "DEV=1 webpack serve --config webpack.dev.config.ts --progress",
     "build": "webpack --config webpack.prod.config.ts",
     "lint": "eslint --ext .ts,.tsx src"
   },
@@ -14,12 +14,22 @@
     "@chakra-ui/react": "^1.6.7",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "axios": "^0.21.4",
+    "date-fns": "^2.24.0",
     "framer-motion": "^4",
+    "jwt-decode": "^3.1.2",
+    "mobx": "^6.3.3",
+    "mobx-react-lite": "^3.2.1",
+    "mobx-stored": "^1.1.0",
+    "mobx-utils": "^6.0.4",
+    "neverthrow": "^4.2.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
+    "@babel/plugin-proposal-class-properties": "^7.14.5",
+    "@babel/plugin-proposal-decorators": "^7.15.4",
     "@babel/plugin-transform-runtime": "^7.14.5",
     "@babel/preset-env": "^7.14.7",
     "@babel/preset-react": "^7.14.5",

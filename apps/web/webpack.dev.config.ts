@@ -1,4 +1,5 @@
 import webpack from 'webpack';
+import * as path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
@@ -32,7 +33,15 @@ const config: webpack.Configuration & { devServer?: DevServer } = {
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+    fallback: {
+      path: false,
+      fs: false,
+    },
+    alias: {
+      '@lib/shared': path.resolve('../../libs/shared/src'),
+      '~': path.resolve('src'),
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
