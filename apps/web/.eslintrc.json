@@ -2,7 +2,7 @@
   "parser": "@typescript-eslint/parser",
   "root": true,
   "parserOptions": {
-    "ecmaVersion": 2018,
+    "ecmaVersion": "latest",
     "sourceType": "module"
   },
   "plugins": ["@typescript-eslint", "react-hooks"],

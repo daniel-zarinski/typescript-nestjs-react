@@ -1,3 +1,3 @@
-export const prop = {
-  test: '123',
-};
+export * from './types';
+export * from './models';
+export * from './yup-schemas';

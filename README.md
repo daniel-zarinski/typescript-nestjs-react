@@ -1,6 +1,6 @@
 ## Docs
 
-- [Nest](https://github.com/nestjs/nest) 
+- [Nest](https://github.com/nestjs/nest)
 - [React](https://github.com/facebook/react)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Chakra UI](https://chakra-ui.com/docs/getting-started)
@@ -14,7 +14,7 @@ $ yarn install
 ## Running
 
 ```bash
-# Start & Watch for API & lib changes (Port 3001)
+# Start & Watch for API & lib changes (Port 8080)
 $ yarn start
 
 # Start React by running webpack dev server (Port 3000)
