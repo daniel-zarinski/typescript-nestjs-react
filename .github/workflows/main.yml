@@ -38,9 +38,6 @@ jobs:
       - name: Build API
         run: yarn build
 
-      - name: Test API
-        run: yarn test
-
       - name: Build Client
         run: cd apps/web && yarn build
 
