@@ -1,3 +1,4 @@
+import { emailAuthSchema } from '@lib/shared';
 import { Controller, Logger, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -10,8 +11,13 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post()
-  async login(@Req() req) {
-    this.logger.log({ user: req.user });
-    return this.authService.login(req.user);
+  async login(
+    @Req()
+    req,
+  ) {
+    this.logger.log(req);
+    const auth = emailAuthSchema.validateSync(req.user, { stripUnknown: true });
+
+    return this.authService.login(auth);
   }
 }

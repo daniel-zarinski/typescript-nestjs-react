@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import type { YupType } from '.';
+import type { Properties, YupType } from '.';
 import { Role } from '../types/auth';
 
 export const userSchema = yup.object().shape({
@@ -10,6 +10,7 @@ export const userSchema = yup.object().shape({
 });
 
 export type IUserSchema = YupType<typeof userSchema>;
+export type IUserSchemaProperties = Properties<IUserSchema>;
 
 export const userModelSchema = userSchema.shape({
   isActive: yup.boolean().required().default(true),
@@ -21,3 +22,4 @@ export const userModelSchema = userSchema.shape({
 });
 
 export type IUserModel = YupType<typeof userModelSchema>;
+export type IUserModelProperties = Properties<IUserModel>;

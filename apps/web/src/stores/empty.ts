@@ -15,7 +15,6 @@ class Empty extends Api {
         password: '12345666',
         email: 'daniel@test.ca',
         firstName: 'daniel',
-        lastName: 'zar',
       },
     });
     console.log({ test });
