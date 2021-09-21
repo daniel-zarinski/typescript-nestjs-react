@@ -1,5 +1,6 @@
 import { IUserSchema, userSchema } from '@lib/shared';
-import { Body, ClassSerializerInterceptor, Controller, Logger, NotAcceptableException, Post, UseInterceptors } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Logger, NotAcceptableException, Post, UseInterceptors, UsePipes } from '@nestjs/common';
+import { YupValidationPipe } from '../pipes/validation.pipe';
 import User from './user.model';
 import { UsersService } from './users.service';
 
@@ -11,9 +12,10 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('/')
+  @UsePipes(new YupValidationPipe(userSchema))
   async create(
     @Body()
-    data: Partial<IUserSchema>,
+    data: IUserSchema,
   ): Promise<User> {
     this.logger.debug('attempting to create user: ', data);
 

@@ -1,3 +1,4 @@
+import { IEmailAuth } from '@lib/shared';
 import { Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import User from '../users/user.model';
@@ -21,8 +22,8 @@ export class AuthService {
     return null;
   }
 
-  async login({ email, id }: User) {
-    this.logger.debug('Auth Service: Login');
+  async login({ email, id }: IEmailAuth) {
+    this.logger.debug('Auth Service: Login', { email, id });
 
     return {
       access_token: this.jwtService.sign({
