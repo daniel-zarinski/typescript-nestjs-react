@@ -1,7 +1,7 @@
 import { Validator, ValidatorArgs } from 'objection';
 import BaseModel from './base-model';
 import * as yup from 'yup';
-import { idSchema } from '..';
+import { idSchema } from '../yup-schemas';
 
 export default class YupValidator extends Validator {
   validate(args: ValidatorArgs) {

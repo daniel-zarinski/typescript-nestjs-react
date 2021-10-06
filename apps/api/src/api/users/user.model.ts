@@ -1,4 +1,5 @@
-import { Role, userModelSchema } from '@lib/shared';
+import { userModelSchema } from '@lib/schema';
+import { Role } from '@lib/shared';
 import BaseModel from '@lib/shared/models/base-model';
 
 export default class User extends BaseModel<typeof userModelSchema> {
