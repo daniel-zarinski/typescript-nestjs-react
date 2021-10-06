@@ -1,11 +1,8 @@
-export enum Role {
-  User = 'user',
-  Admin = 'admin',
-}
+import { Role } from '../enums';
 
 export type JWT = {
   id: number;
   iat: number;
   exp: number;
-  role: Role[];
+  roles: Role[];
 };

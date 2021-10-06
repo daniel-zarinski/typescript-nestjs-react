@@ -14,11 +14,18 @@ export class HttpLoggerMiddleware implements NestMiddleware {
     response.on('close', () => {
       const contentLength = response.get('content-length');
 
-      this.logger.log(`${method} ${path}${Object.values(params)} ${statusCode} ${contentLength} - ${userAgent} ${ip}`);
+      this.logger.log(
+        `${method} ${path}${Object.values(
+          params,
+        )} ${statusCode} ${contentLength} - ${userAgent} ${ip}`,
+      );
     });
 
     response.on('error', (err) => {
-      this.logger.error(`${method} ${path}${Object.values(params)} ${statusCode} - ${userAgent} ${ip}`, err);
+      this.logger.error(
+        `${method} ${path}${Object.values(params)} ${statusCode} - ${userAgent} ${ip}`,
+        err,
+      );
     });
 
     next();

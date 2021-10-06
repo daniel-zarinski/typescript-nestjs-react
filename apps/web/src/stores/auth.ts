@@ -1,7 +1,8 @@
+import { tokenSchema } from '@lib/schema';
 import { JWT } from '@lib/shared';
 import { isPast } from 'date-fns';
 import jwtDecode from 'jwt-decode';
-import { action, computed, IReactionDisposer, makeObservable, observable, reaction, toJS } from 'mobx';
+import { action, computed, IReactionDisposer, makeObservable, observable, reaction } from 'mobx';
 import { localStored } from 'mobx-stored';
 import Api from './api';
 
@@ -19,7 +20,6 @@ class Auth extends Api {
 
   constructor(private readonly storageKey = 'auth') {
     super('auth');
-    console.log('constructor');
 
     makeObservable(this, {
       login: action,
@@ -30,7 +30,6 @@ class Auth extends Api {
       setToken: action,
       logout: action,
       expiry: computed,
-      token: computed,
       isExpired: computed,
     });
     this.onResponseExpired();
@@ -57,9 +56,11 @@ class Auth extends Api {
     });
 
     if (response.isOk()) {
-      const { token } = response.value.data;
+      const tokenResponse = await this.validate(response, tokenSchema);
 
-      this.setToken(token);
+      if (tokenResponse.isOk()) {
+        this.setToken(tokenResponse.value.token);
+      }
     }
 
     if (response.isErr()) {
@@ -77,14 +78,16 @@ class Auth extends Api {
 
     const response = await this.post<LoginResponse>({
       setLoading: (loading) => (this.isRefreshingToken = loading),
-      url: '/login',
+      url: '/refresh',
       data: { token: this.authStorage.token },
     });
 
     if (response.isOk()) {
-      const { token } = response.value.data;
+      const tokenResponse = await this.validate(response, tokenSchema);
 
-      this.setToken(token);
+      if (tokenResponse.isOk()) {
+        this.setToken(tokenResponse.value.token);
+      }
     }
 
     return response;
@@ -95,22 +98,12 @@ class Auth extends Api {
     this.authStorage.reset();
 
     this.authStorage.token = token;
-    this.authStorage.jwt = toJS(jwt);
+    this.authStorage.jwt = jwt;
   };
 
   @action logout = () => {
-    this.authStorage.destroy();
+    this.authStorage.reset();
   };
-
-  @computed get token() {
-    if (!this.authStorage.token) return null;
-    if (new Date().getTime() - this.authStorage.jwt.exp > 0) return null;
-
-    const token = this.authStorage.token.match(/(?:Bearer\s+)?(\w+\.\w+\.\w+)/);
-    if (token && token.length > 1) return token[1];
-
-    return null;
-  }
 
   @computed get expiry() {
     if (!this.authStorage.jwt.exp) return null;

@@ -1,17 +1,16 @@
-import { ApiController } from './api.controller';
-import { ObjectionModule } from '@willsoto/nestjs-objection';
+import { User } from '@lib/database';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
-import { UsersController } from './users/users.controller';
-import { HttpLoggerMiddleware } from './middleware/http.logger';
-import { AuthController } from './auth/auth.controller';
-import { ApiService } from './api.service';
+import { ObjectionModule } from '@willsoto/nestjs-objection';
 import { Knex } from 'knex';
 import { knexSnakeCaseMappers } from 'objection';
-import BaseModel from '@lib/shared/models/base-model';
-import User from './users/user.model';
+import { ApiController } from './api.controller';
+import { ApiService } from './api.service';
+import { AuthController } from './auth/auth.controller';
+import { AuthModule } from './auth/auth.module';
+import { HttpLoggerMiddleware } from './middleware/http.logger';
+import { UsersController } from './users/users.controller';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -23,19 +22,21 @@ import User from './users/user.model';
       inject: [ConfigService],
       useFactory(config: ConfigService) {
         return {
-          Model: BaseModel,
           config: {
-            client: 'mysql2',
+            client: 'pg',
             debug: true,
-            version: '8',
+            version: '13',
             connection: {
-              host: config.get('DB_HOST'),
-              user: config.get('DB_USERNAME'),
-              password: config.get('DB_PASSWORD'),
-              database: config.get('DB_DATABASE'),
-              port: config.get('DB_PORT'),
+              connectionString: config.get('DB_CONNECTION_STRING'),
+              ssl: config.get<boolean>('DEV', false)
+                ? false
+                : {
+                    rejectUnauthorized: false,
+                  },
             },
-            migrations: {},
+            migrations: {
+              directory: './libs/migrations/src',
+            },
 
             ...knexSnakeCaseMappers(),
           } as Knex.Config,

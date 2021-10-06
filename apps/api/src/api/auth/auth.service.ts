@@ -1,7 +1,8 @@
-import { IEmailAuth } from '@lib/shared';
+import { IUser, User } from '@lib/database';
+import { emailAuthSchema } from '@lib/schema';
+import { Nullable } from '@lib/shared';
 import { Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import User from '../users/user.model';
 import { UsersService } from '../users/users.service';
 
 @Injectable()
@@ -10,25 +11,36 @@ export class AuthService {
 
   constructor(private usersService: UsersService, private jwtService: JwtService) {}
 
-  async validateUser(email: string, pass: string): Promise<User | null> {
-    this.logger.debug('Auth Service: Validating User.');
+  async validateUser(email: string, pass: string): Promise<Nullable<User>> {
+    this.logger.debug(`Auth Service: Validating email: ${email}.`);
 
-    const user = await this.usersService.findByEmail(email);
+    const { email: validEmail, password: validPassword } = await emailAuthSchema.validate({
+      email,
+      password: pass,
+    });
 
-    if (user && (await this.usersService.verifyPassword(pass, user.password))) {
+    const user = await this.usersService.findByEmail(validEmail);
+
+    if (!user) {
+      this.logger.debug(`Email ${validEmail} was not found.`);
+
+      return null;
+    }
+
+    if (await this.usersService.verifyPassword(validPassword, user.password)) {
       return user;
     }
 
     return null;
   }
 
-  async login({ email, id }: IEmailAuth) {
+  async login({ email, id, roles }: IUser) {
     this.logger.debug('Auth Service: Login', { email, id });
 
     return {
-      access_token: this.jwtService.sign({
-        id,
-        email,
+      token: this.jwtService.sign({
+        id: id,
+        roles: roles,
       }),
     };
   }

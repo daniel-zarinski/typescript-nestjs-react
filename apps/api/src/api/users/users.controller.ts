@@ -1,7 +1,17 @@
-import { IUserSchema, userSchema } from '@lib/shared';
-import { Body, ClassSerializerInterceptor, Controller, Logger, NotAcceptableException, Post, UseInterceptors, UsePipes } from '@nestjs/common';
+import { IUser } from '@lib/database';
+import { userSchema, IUserValues } from '@lib/schema';
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  Logger,
+  Post,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { YupValidationPipe } from '../pipes/validation.pipe';
-import User from './user.model';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -12,28 +22,21 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('/')
-  @UsePipes(new YupValidationPipe(userSchema))
   async create(
-    @Body()
-    data: IUserSchema,
-  ): Promise<User> {
-    this.logger.debug('attempting to create user: ', data);
+    @Body(new YupValidationPipe(userSchema))
+    data: IUserValues,
+  ): Promise<IUser> {
+    this.logger.debug('attempting to create user with email: ', data.email, { ...data });
+    const newUser = await this.usersService.create(data);
 
-    try {
-      const user = await userSchema.validate(data, { stripUnknown: true });
-
-      return this.usersService.create(user);
-    } catch (err) {
-      this.logger.warn({ err });
-      throw new NotAcceptableException(err.message);
-    }
+    return newUser.toJSON();
   }
 
-  // @Get()
-  // @UseGuards(JwtAuthGuard)
-  // findAll(): Promise<User[]> {
-  //   return this.usersService.findAll();
-  // }
+  @Get('/')
+  @UseGuards(JwtAuthGuard)
+  findAll() {
+    return this.usersService.findAll();
+  }
 
   // @Get('/me')
   // @UseGuards(JwtAuthGuard)

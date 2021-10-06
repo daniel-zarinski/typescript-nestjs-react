@@ -1,8 +1,9 @@
-import { extendTheme, withDefaultColorScheme, theme as baseTheme, ThemeOverride } from '@chakra-ui/react';
+import { extendTheme, withDefaultColorScheme, ThemeOverride } from '@chakra-ui/react';
 import { mode } from '@chakra-ui/theme-tools';
 import { Dict } from '@chakra-ui/utils';
 
 // DOC: https://chakra-ui.com/docs/theming/customize-theme#using-theme-extensions
+// src: https://github.com/chakra-ui/chakra-ui/tree/main/packages/theme/src/foundations
 export const theme = extendTheme(
   {
     styles: {
@@ -15,11 +16,9 @@ export const theme = extendTheme(
         },
       }),
     },
-    colors: {
-      primary: baseTheme.colors.teal,
-    },
     config: {
-      useSystemColorMode: true,
+      initialColorMode: 'light',
+      useSystemColorMode: false,
     },
   } as ThemeOverride,
   withDefaultColorScheme({ colorScheme: 'primary' }),

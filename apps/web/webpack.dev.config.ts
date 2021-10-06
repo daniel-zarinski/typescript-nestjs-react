@@ -3,6 +3,7 @@ import * as path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
+import Dotenv from 'dotenv-webpack';
 
 interface DevServer {
   historyApiFallback: boolean;
@@ -40,6 +41,7 @@ const config: webpack.Configuration & { devServer?: DevServer } = {
     },
     alias: {
       '@lib/shared': path.resolve('../../libs/shared/src'),
+      '@lib/schema': path.resolve('../../libs/schema/src'),
       '~': path.resolve('src'),
     },
   },
@@ -54,6 +56,11 @@ const config: webpack.Configuration & { devServer?: DevServer } = {
     new ESLintPlugin({
       extensions: ['js', 'jsx', 'ts', 'tsx'],
     }),
+    new Dotenv({
+      allowEmptyValues: true,
+      systemvars: true,
+      silent: true,
+    }) as any,
   ],
   devtool: 'inline-source-map',
   devServer: {

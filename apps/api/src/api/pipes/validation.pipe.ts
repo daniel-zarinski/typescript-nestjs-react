@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
+import { ArgumentMetadata, BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
 import type { AnySchema } from 'yup';
 import type { ValidateOptions } from 'yup/lib/types';
 
@@ -6,9 +6,14 @@ import type { ValidateOptions } from 'yup/lib/types';
 export class YupValidationPipe<Schema> implements PipeTransform {
   constructor(private schema: AnySchema<Schema>, private options?: ValidateOptions) {}
 
-  transform(value: unknown) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  transform(value: unknown, _metadata: ArgumentMetadata) {
     try {
-      const validValue = this.schema.validateSync(value, { stripUnknown: true, abortEarly: false, ...this.options });
+      const validValue = this.schema.validateSync(value, {
+        stripUnknown: true,
+        abortEarly: false,
+        ...this.options,
+      });
 
       return validValue;
     } catch (err) {

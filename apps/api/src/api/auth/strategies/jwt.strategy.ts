@@ -1,7 +1,9 @@
-import { ExtractJwt, Strategy } from 'passport-jwt';
-import { PassportStrategy } from '@nestjs/passport';
-import { Injectable, Logger, ValidationError, ValidationPipe } from '@nestjs/common';
+import { User } from '@lib/database';
+import { JWT } from '@lib/shared';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { PassportStrategy } from '@nestjs/passport';
+import { ExtractJwt, Strategy } from 'passport-jwt';
 import { UsersService } from '../../users/users.service';
 
 @Injectable()
@@ -16,8 +18,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: any): Promise<{ email: string; id: number }> {
-    this.logger.log('JWT: Validating');
+  async validate(payload: JWT): Promise<User> {
+    this.logger.log('JWT: Validating payload:', { payload });
+
+    // TODO: Add exp check?
 
     const user = await this.usersService.findById(payload.id);
 

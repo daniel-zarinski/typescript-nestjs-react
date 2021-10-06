@@ -1,6 +1,6 @@
-import { emailAuthSchema } from '@lib/shared';
-import { Controller, Logger, Post, Req, UseGuards } from '@nestjs/common';
+import { Controller, Logger, Post, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 
 @Controller('auth')
@@ -10,14 +10,26 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @UseGuards(LocalAuthGuard)
-  @Post()
+  @Post('/login')
   async login(
     @Req()
     req,
   ) {
-    this.logger.log(req);
-    const auth = emailAuthSchema.validateSync(req.user, { stripUnknown: true });
+    console.log({ user: req.user });
+    if (!req.user) throw new UnauthorizedException();
 
-    return this.authService.login(auth);
+    return this.authService.login(req.user);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('/refresh')
+  async refresh(
+    @Req()
+    req,
+  ) {
+    console.log({ user: req.user });
+    if (!req.user) throw new UnauthorizedException();
+
+    return this.authService.login(req.user);
   }
 }

@@ -4,7 +4,7 @@ on:
   push:
     branches: [master, develop]
   pull_request:
-    branches: [master]
+    branches: [master, develop]
 
 jobs:
   build:
@@ -12,6 +12,26 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         node-version: [14.x]
+
+    # Service containers to run with `container-job`
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres:12-alpine
+        ports:
+          - '5432:5432'
+        # Provide the password for postgres
+        env:
+          POSTGRES_DB: altvape
+          POSTGRES_PASSWORD: Dev123!
+          POSTGRES_USER: root
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     runs-on: ${{ matrix.os }}
 
@@ -32,7 +52,7 @@ jobs:
       - name: Yarn Audit
         run: yarn audit
 
-      - name: Lint API
+      - name: Lint
         run: yarn lint
 
       - name: Build API
@@ -40,6 +60,3 @@ jobs:
 
       - name: Build Client
         run: cd apps/web && yarn build
-
-      - name: Lint Client
-        run: cd apps/web && yarn lint

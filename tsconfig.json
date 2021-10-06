@@ -6,6 +6,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "strictNullChecks": true,
     "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
@@ -14,7 +15,11 @@
     "skipLibCheck": true,
     "paths": {
       "@lib/shared": ["libs/shared/src"],
-      "@lib/shared/*": ["libs/shared/src/*"]
+      "@lib/shared/*": ["libs/shared/src/*"],
+      "@lib/database": ["libs/database/src"],
+      "@lib/database/*": ["libs/database/src/*"],
+      "@lib/schema": ["libs/schema/src"],
+      "@lib/schema/*": ["libs/schema/src/*"]
     }
   }
 }

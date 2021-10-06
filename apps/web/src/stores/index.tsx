@@ -1,11 +1,16 @@
+import { Nullable } from '@lib/shared';
 import { useLocalObservable } from 'mobx-react-lite';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RootStore } from './root-store';
 
-const storeContext = React.createContext<RootStore | null>(null);
+const storeContext = React.createContext<Nullable<RootStore>>(null);
 
 export const StoreProvider: React.FC = ({ children }) => {
   const store = useLocalObservable(() => new RootStore());
+
+  useEffect(() => {
+    return () => store.dispose();
+  }, [store]);
 
   return <storeContext.Provider value={store}>{children}</storeContext.Provider>;
 };

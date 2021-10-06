@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 import type { Properties, YupType } from '.';
-import { Role } from '../types/auth';
+import { Role } from '../enums';
 
 export const userSchema = yup.object().shape({
   email: yup.string().email().min(5).max(255).required(),

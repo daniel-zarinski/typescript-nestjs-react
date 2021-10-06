@@ -5,8 +5,8 @@ import { ApiService } from './api.service';
 export class ApiController {
   constructor(private readonly apiService: ApiService) {}
 
-  @Get('/hello')
-  hello(): string {
-    return this.apiService.getHello();
+  @Get('/version')
+  getVersion(): string {
+    return this.apiService.getVersion();
   }
 }
