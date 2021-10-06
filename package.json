@@ -11,7 +11,8 @@
   ],
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "nest build api && nest build shared && nest build database && nest build schema",
+    "build": "nest build api",
+    "build:all": "yarn build && nest build shared && nest build database && nest build schema",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start": "yarn start:api",
     "start:web": "cd apps/web && yarn start",

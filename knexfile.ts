@@ -22,7 +22,10 @@ module.exports = {
     client: 'pg',
     version: 13,
     connection: {
-      connectionString: process.env.DB_CONNECTION_STRING,
+      user: process.env.DB_USERNAME,
+      database: process.env.DB_DATABASE,
+      password: process.env.DB_PASSWORD,
+      port: process.env.DB_PORT,
       ssl: process.env.DEV
         ? false
         : {

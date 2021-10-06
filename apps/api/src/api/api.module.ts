@@ -27,7 +27,10 @@ import { UsersModule } from './users/users.module';
             debug: true,
             version: '13',
             connection: {
-              connectionString: config.get('DB_CONNECTION_STRING'),
+              user: config.get('DB_USERNAME', 'root'),
+              password: config.get('DB_PASSWORD'),
+              database: config.get('DB_DATABASE'),
+              port: config.get('DB_PORT', 5432),
               ssl: config.get<boolean>('DEV', false)
                 ? false
                 : {
